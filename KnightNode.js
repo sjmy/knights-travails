@@ -1,6 +1,6 @@
 // KnightNode object contains a position (coordinate of the square on the board) and an array of legal moves
 // Requires a coordinate parameter upon creation in format [x, y]
-// Moves are calculated from the position. Impossible moves are set to null
+// Moves are calculated from the position. Impossible moves are ignored
 
 export default function KnightNode(coordinate) {
   const position = coordinate;
@@ -24,13 +24,11 @@ export default function KnightNode(coordinate) {
       const y = potentialMoves[i][1];
 
       if (
-        position[0] + x > 7 ||
-        position[0] + x < 0 ||
-        position[1] + y > 7 ||
-        position[1] + y < 0
+        position[0] + x <= 7 &&
+        position[0] + x >= 0 &&
+        position[1] + y <= 7 &&
+        position[1] + y >= 0
       ) {
-        legalMoves.push(null);
-      } else {
         legalMoves.push([position[0] + x, position[1] + y]);
       }
     }
