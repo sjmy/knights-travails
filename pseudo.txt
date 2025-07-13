@@ -1,0 +1,18 @@
+Create a graph data structure that holds nodes.
+Nodes are coordinates on the 8x8 board.
+Like a binary search tree, but with more possibilities.
+Given two node coordinates, find the shortest path traversal between the two nodes.
+
+To populate the graph, start with one node coordinate.
+For each possible move, build out the graph until the destination coordinate is found.
+How to choose which traversal algorithm? levelOrder, preOrder, postOrder, inOrder.
+Check all and compare?
+Is there a way to always start in roughly the right direction by considering the start position?
+
+Use a queue to keep track of next positions to explore.
+Track visited positions to avoid repeats.
+
+Node object:
+  data
+    - board coordinate [x, y]
+  possible moves: [1, 2], [2, 1], [-1, 2], [-2, 1], [-1, -2], [-2, -1], [2, -1], [1, -2]
