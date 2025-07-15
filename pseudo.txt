@@ -13,6 +13,55 @@ Use a queue to keep track of next positions to explore.
 Track visited positions to avoid repeats.
 
 Node object:
-  data
-    - board coordinate [x, y]
+  data: board coordinate [x, y]
   possible moves: [1, 2], [2, 1], [-1, 2], [-2, 1], [-1, -2], [-2, -1], [2, -1], [1, -2]
+  legal moves: list of positions that don't break the board
+
+Module scope variables
+  queue = [startNode] nodes to check
+  visited = [] nodes already checked
+  moveList = [] keeps track of path by storing each node as the serach progresses
+  moveCounter = 0 increments whenever a level search is completed, or a match is found
+
+
+queueHandler function? Replace starter(), handles queue
+search() becomes the recursive search function?
+  Recursive actions
+    comparePositions(node)
+    add node to visited
+    loadQueue(node)
+search using BFS to find the node and update the queue with children, and when found, use depth to trace back to startNode
+can depth also populate the moveList?
+only incrementing moveCounter when the depth changes - check the depth!
+the depth is the moveCounter so no need to count as we BFS
+  if that's the case, I don't need to for loop a nodes moves at all, I can add to queue
+I think the solution may be a while loop for the queue and a recursive function for searching the node
+once we've found all possibilities, we can check the depth on each one and report the shortest route
+  when a match is found, save the route and length. if the next search exceeds that length, discard
+
+
+comparePositions(node)
+  if node.value === end
+    figure out the depth
+    save the moveList and depth to compare to other solutions
+    return true
+
+function loadQueue(node)
+  for (let i = 0; i < node.moves.length; i++)
+    queue.push(node.moves[i])
+
+function queueHandler()
+
+  while queue.length > 0
+    grab next node in queue via shift()
+
+    if comparePositions(node)
+      return report
+
+    if node is in visited
+      continue
+    
+    add node to visited
+    loadQueue(node)
+
+  when the queue is empty, compare the solutions and report the shortest one
