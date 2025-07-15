@@ -1,10 +1,14 @@
 // KnightNode object contains a position (coordinate of the square on the board) and an array of legal moves
 // Requires a coordinate parameter upon creation in format [x, y]
 // Moves are calculated from the position. Impossible moves are ignored
+// Distance starts as null, incremented as the search progresses
+// Previous node starts as null, updated as the search progresses
 
 export default function KnightNode(coordinate) {
   const position = coordinate;
   const moves = getMoves();
+  const distance = null;
+  const prevNode = null;
 
   function getMoves() {
     const legalMoves = [];
@@ -36,5 +40,5 @@ export default function KnightNode(coordinate) {
     return legalMoves;
   }
 
-  return { position, moves };
+  return { position, moves, distance, prevNode };
 }

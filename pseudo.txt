@@ -20,7 +20,7 @@ Node object:
 Module scope variables
   queue = [startNode] nodes to check
   visited = [] nodes already checked
-  moveList = [] keeps track of path by storing each node as the serach progresses
+  moveList = [] keeps track of path by storing each node as the search progresses
   moveCounter = 0 increments whenever a level search is completed, or a match is found
 
 
@@ -38,6 +38,19 @@ the depth is the moveCounter so no need to count as we BFS
 I think the solution may be a while loop for the queue and a recursive function for searching the node
 once we've found all possibilities, we can check the depth on each one and report the shortest route
   when a match is found, save the route and length. if the next search exceeds that length, discard
+
+
+https://www.khanacademy.org/computing/computer-science/algorithms/breadth-first-search/a/the-breadth-first-search-algorithm
+I need to add two attributes to KnightNode:
+  - distance
+  - previous node
+
+Search through the nodes as I have been.
+Each node discovered, check if visited.
+Set predecessor to node we came from.
+Set distance to to predecessor distance += 1.
+When we find the endNode, distance is there to report.
+Follow the trail back via predecessors, populate the moveList!
 
 
 comparePositions(node)

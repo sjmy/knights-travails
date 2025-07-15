@@ -5,4 +5,4 @@ import { knightMoves } from "./knightMoves.js";
 
 // console.log(testNode.position, testNode.moves);
 
-console.log(knightMoves([2, 2], [2, 5]));
+console.log(knightMoves([7, 1], [1, 7]));
