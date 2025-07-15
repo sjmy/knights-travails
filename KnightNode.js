@@ -23,10 +23,12 @@ export default function KnightNode(coordinate) {
       [-2, -1],
     ];
 
+    // Loop through the potential moves, assigning x and y
     for (let i = 0; i < potentialMoves.length; i++) {
       const x = potentialMoves[i][0];
       const y = potentialMoves[i][1];
 
+      // If each value is between 0 and 7, it's a legal move
       if (
         position[0] + x <= 7 &&
         position[0] + x >= 0 &&

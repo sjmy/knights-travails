@@ -1,14 +1,5 @@
 import KnightNode from "./KnightNode.js";
 
-// Queue needs to be in module scope DONE
-// Queue needs to take nodes, not position arrays
-// Add moveList to module scope DONE
-// queueHandler function? Replace starter(), handles queue, moveCounter?, moveList?
-// search() becomes the recursive search function
-// search always BFS?
-// next step would be comparing routes to report the shortest one
-// when a match is found, save the route and length. if the next search exceeds that length, discard
-
 export function knightMoves(start, end) {
   const startNode = KnightNode(start);
   const endNode = KnightNode(end);
@@ -16,39 +7,8 @@ export function knightMoves(start, end) {
   let queue = [startNode];
   // Keep track of positions we've visited
   let visited = [];
-
-  // List of moves needed to get to endNode, not certain I need this or the moveCounter
+  // List of moves needed to get to endNode
   let moveList = [];
-  // Idea is to increment whenever a level search is completed without a match
-  let moveCounter = 0;
-
-  // Level order search of each coordinate in node.moves
-  function search(node) {
-    // Fill the queue with potential positions
-    for (let i = 0; i < node.moves.length; i++) {
-      queue.push(KnightNode(node.moves[i]));
-    }
-
-    while (queue.length > 0) {
-      let current = queue.pop();
-
-      for (let i = 0; i < visited.length; i++) {
-        if (comparePositions(current, visited[i])) {
-          continue;
-        }
-      }
-
-      if (comparePositions(current, endNode)) {
-        moveCounter += 1;
-        return true;
-      }
-
-      visited.push(current);
-    }
-
-    moveCounter += 1;
-    return false;
-  }
 
   // Checks if arrays are the same
   // Arrays cannot be compared via === because arrays are objects and objects cannot be compared
@@ -66,6 +26,9 @@ export function knightMoves(start, end) {
   }
 
   // Load the queue with node children (legal moves)
+  // Creates new nodes from moves list
+  // If distance of node passed in is null (startNode), set distance to 1. If not, increment by 1
+  // Set prevNode to node passed in
   function loadQueue(node) {
     for (let i = 0; i < node.moves.length; i++) {
       const current = KnightNode(node.moves[i]);
@@ -82,6 +45,9 @@ export function knightMoves(start, end) {
     }
   }
 
+  // We've found the endNode, now we trace it back by checking the previous node
+  // If prevNode is not null, add it to the front of the moveList
+  // When prevNode is null, we've traced the nodes back to the startNode and the moveList is populated
   function populateMoveList(node) {
     let current = node;
 
@@ -90,16 +56,28 @@ export function knightMoves(start, end) {
       current = current.prevNode;
     }
     moveList.unshift(startNode.position);
+    return moveList;
   }
 
+  // Publish the final report!
+  function getReport(moveList, distance) {
+    console.log(`You made it in ${distance} moves! Here's your path:`);
+
+    moveList.forEach((position) => {
+      console.log(position);
+    });
+  }
+
+  // The queue is populated with startNode upon creation
+  // Search each node in the queue, check if it's the endNode, check if it's been visited
+  // If not, add to visited and load the queue with its children
   function queueHandler() {
     while (queue.length > 0) {
       const current = queue.shift();
 
       if (comparePositions(current, endNode)) {
-        populateMoveList(current);
-        console.table(moveList);
-        return `match found in ${current.distance} steps`;
+        moveList = populateMoveList(current);
+        return getReport(moveList, current.distance);
       }
 
       for (let i = 0; i < visited.length; i++) {
@@ -113,28 +91,5 @@ export function knightMoves(start, end) {
     }
   }
 
-  // when the queue is empty, compare the solutions and report the shortest one
-
-  // Use a nodeQueue to keep track of potential nodes to check
-  // Call search() to do a breadth-first check for each node
-  // If true, report success
-  // If not, check the next node in nodeQueue
-  // function queueHandler() {
-  //   // Populate the nodeQueue with nodes created from startNode.moves
-  //   for (let i = 0; i < startNode.moves.length; i++) {
-  //     nodeQueue.push(KnightNode(startNode.moves[i]));
-  //   }
-
-  //   while (nodeQueue.length > 0) {
-  //     let node = nodeQueue.shift();
-
-  //     if (search(node) === true) {
-  //       return moveCounter;
-  //     }
-  //   }
-  // }
-
-  return queueHandler();
+  queueHandler();
 }
-
-// `You made it in ${moveCounter} moves! Here's your path: implement me!`
